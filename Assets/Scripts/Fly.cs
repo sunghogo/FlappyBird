@@ -2,12 +2,24 @@ using UnityEngine;
 
 public class Fly : MonoBehaviour
 {
-    [SerializeField] private float _jumpVelocity;
-    private Rigidbody2D _rigidbody2D;
+    [SerializeField] float jumpVelocity = 5f;
+    [SerializeField] float turnRotation = 30f;
+    [SerializeField] float maxClicksPerSecond = 5f;
+    float clickDuration;
+    float duration;
+    Rigidbody2D rb;
+    Animator animator;
+    Vector2 gravity;
+    FlappyAudio flappyAudio;
 
-    void Start() {
-        _jumpVelocity = 5f;
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        gravity = Physics2D.gravity * rb.gravityScale;
+        flappyAudio = GetComponent<FlappyAudio>();
+        clickDuration = 1 / maxClicksPerSecond;
+        duration = clickDuration;
     }
 
     void Update()
@@ -15,19 +27,25 @@ public class Fly : MonoBehaviour
         // Get z Rotation and default downward rotation
         float zRotation = transform.eulerAngles.z;
         if (zRotation > 180f) zRotation -= 360f; // Transform from [0, 360] to [-180, 180] range
-        float zRotationVel = -10 * _jumpVelocity * Time.deltaTime;
+        float zRotationVel = gravity.y * jumpVelocity * Time.deltaTime;
 
         // Jump and rotate up by fixed constant velocity
-        if (Input.GetMouseButtonDown(0)) {
-            _rigidbody2D.velocity += new Vector2(0, _jumpVelocity);
-            zRotationVel = 10 * _jumpVelocity;
+        if (duration >= clickDuration && Input.GetMouseButtonDown(0))
+        {
+            rb.velocity = new Vector2(0, jumpVelocity);
+            zRotation = turnRotation;
+            zRotationVel = 0f;
+            duration = 0f;
+            animator.SetTrigger("Flap");
+            flappyAudio.PlayClip(FlappyClip.Wing);
         }
+        duration += Time.deltaTime;
 
         // Clamp and apply rotations
-        zRotation = Mathf.Clamp(zRotation + zRotationVel, -30f, 30f);
+        zRotation = Mathf.Clamp(zRotation + zRotationVel, -turnRotation, turnRotation);
         transform.eulerAngles = new Vector3(0, 0, zRotation);
 
         // Clamp y velocity
-        _rigidbody2D.velocity = new Vector2(0, Mathf.Clamp(_rigidbody2D.velocity.y, -_jumpVelocity, _jumpVelocity));
+        rb.velocity = new Vector2(0, Mathf.Clamp(rb.velocity.y, -jumpVelocity, jumpVelocity));
     }
 }
