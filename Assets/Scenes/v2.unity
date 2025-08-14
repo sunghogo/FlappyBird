@@ -1105,6 +1105,10 @@ PrefabInstance:
       propertyPath: turnRotation
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 7928401702596077719, guid: ff3c3caf74e134f25803e66d9e1cc0b7, type: 3}
+      propertyPath: bgmClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d3d51d325404b4009a2b6b3e4ae717e9, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
