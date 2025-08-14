@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class Fly : MonoBehaviour
 {
+    [Header("Properties")]
     [SerializeField] float jumpVelocity = 5f;
-    [SerializeField] float turnRotation = 30f;
+    [SerializeField] float maxTurnRotation = 30f;
+    [SerializeField] float minTurnRotation = -90f;
     [SerializeField] float maxClicksPerSecond = 5f;
     float clickDuration;
     float duration;
@@ -24,6 +26,8 @@ public class Fly : MonoBehaviour
 
     void Update()
     {
+        if (!GameManager.Instance.GameStart) return;
+
         // Get z Rotation and default downward rotation
         float zRotation = transform.eulerAngles.z;
         if (zRotation > 180f) zRotation -= 360f; // Transform from [0, 360] to [-180, 180] range
@@ -33,7 +37,7 @@ public class Fly : MonoBehaviour
         if (duration >= clickDuration && Input.GetMouseButtonDown(0))
         {
             rb.velocity = new Vector2(0, jumpVelocity);
-            zRotation = turnRotation;
+            zRotation = maxTurnRotation;
             zRotationVel = 0f;
             duration = 0f;
             animator.SetTrigger("Flap");
@@ -42,7 +46,7 @@ public class Fly : MonoBehaviour
         duration += Time.deltaTime;
 
         // Clamp and apply rotations
-        zRotation = Mathf.Clamp(zRotation + zRotationVel, -turnRotation, turnRotation);
+        zRotation = Mathf.Clamp(zRotation + zRotationVel, minTurnRotation, maxTurnRotation);
         transform.eulerAngles = new Vector3(0, 0, zRotation);
 
         // Clamp y velocity

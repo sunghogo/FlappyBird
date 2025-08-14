@@ -12,6 +12,7 @@ public class PipesSpawner : MonoBehaviour
 
     public void spawnPipes()
     {
+        if (!GameManager.Instance.GameStart) return;
         Instantiate(pipesPrefab, transform);
     }
 

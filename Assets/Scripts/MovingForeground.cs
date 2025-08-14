@@ -43,7 +43,7 @@ public class MovingForeground : MonoBehaviour
 
     public void MoveGroundPartitionsLeft()
     {
-        if (groundPartitionsList.Count == 0) return;
+        if (groundPartitionsList.Count == 0 || !GameManager.Instance.GameStart) return;
         foreach (Transform partition in groundPartitionsList)
         {
             partition.Translate(Vector2.left * Time.deltaTime * speed);
@@ -52,6 +52,7 @@ public class MovingForeground : MonoBehaviour
 
     public void CheckThenLoopObjects()
     {
+        if (!GameManager.Instance.GameStart) return;
         if (groundPartitionsList.Count > 0)
         {
             foreach (Transform partition in groundPartitionsList)

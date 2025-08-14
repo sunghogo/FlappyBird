@@ -20,6 +20,18 @@ public class Pipes : MonoBehaviour
         transform.Translate(impulse);
     }
 
+    void Awake()
+    {
+        GameManager.OnGameOver += HandleGameOver;
+    }
+
+    void OnDestroy()
+    {
+        GameManager.OnGameOver -= HandleGameOver;
+    }
+
+    void HandleGameOver() => CoroutineRunner.StartFadeOutThenDisable(gameObject);
+
     void Start()
     {
         RandomizePipesHeight();

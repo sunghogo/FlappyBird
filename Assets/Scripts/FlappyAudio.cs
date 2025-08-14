@@ -18,37 +18,63 @@ public class FlappyAudio : MonoBehaviour
     [SerializeField] AudioClip pointClip;
     [SerializeField] AudioClip hitClip;
     [SerializeField] AudioClip dieClip;
+    [SerializeField] AudioClip bgmClip;
+
     
     AudioSource audioSource;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        GameManager.OnGameStart += HandleGameStart;
+        GameManager.OnGameOver += HandleGameOver;
+    }
+
+    void OnDestroy()
+    {
+        GameManager.OnGameStart -= HandleGameStart;
+        GameManager.OnGameOver -= HandleGameOver;
+    }
+
+    void Start()
+    {
+        audioSource.clip = bgmClip;
+        audioSource.loop = true;
+    }
+
+    void HandleGameStart() {
+        if (audioSource.gameObject.activeInHierarchy) {
+            audioSource.Play();
+        }
+    }
+
+    void HandleGameOver() {
+        audioSource.Stop();
     }
 
     public void PlayClip(FlappyClip clip)
     {
+        AudioClip playedClip;
         switch (clip)
         {
             case FlappyClip.Wing:
-                audioSource.clip = wingClip;
+                playedClip = wingClip;
                 break;
             case FlappyClip.Swoosh:
-                audioSource.clip = swooshClip;
+                playedClip = swooshClip;
                 break;
             case FlappyClip.Point:
-                audioSource.clip = pointClip;
+                playedClip = pointClip;
                 break;
             case FlappyClip.Hit:
-                audioSource.clip = hitClip;
+                playedClip = hitClip;
                 break;
             case FlappyClip.Die:
-                audioSource.clip = dieClip;
+                playedClip = dieClip;
                 break;
             default:
                 return;
         }
-        audioSource.Play();
+        audioSource.PlayOneShot(playedClip);
     }
 }
