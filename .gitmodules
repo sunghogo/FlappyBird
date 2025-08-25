@@ -1,0 +1,3 @@
+[submodule "Flappy Bird WebGL Build"]
+	path = Flappy Bird WebGL Build
+	url = https://github.com/sunghogo/FlappyWebGL.git
