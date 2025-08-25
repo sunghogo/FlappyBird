@@ -4,7 +4,7 @@ using UnityEngine;
 public class MovingForeground : MonoBehaviour
 {
     [SerializeField] float leftBoundaryX = 0f, rightBoundaryX = 0f;
-    [SerializeField] float speed = 1f;
+    [SerializeField] float speed = 2f;
     [SerializeField] List<Transform> groundPartitionsList = new List<Transform>();
 
     public void InitializeLists()
@@ -46,7 +46,7 @@ public class MovingForeground : MonoBehaviour
         if (groundPartitionsList.Count == 0 || !GameManager.Instance.GameStart) return;
         foreach (Transform partition in groundPartitionsList)
         {
-            partition.Translate(Vector2.left * Time.deltaTime * speed);
+            partition.Translate(Vector2.left * Time.fixedDeltaTime * speed);
         }
     }
 
@@ -71,7 +71,7 @@ public class MovingForeground : MonoBehaviour
         SetBoundaryLimits();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         MoveGroundPartitionsLeft();
         CheckThenLoopObjects();

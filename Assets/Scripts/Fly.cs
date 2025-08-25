@@ -36,7 +36,7 @@ public class Fly : MonoBehaviour
         // Jump and rotate up by fixed constant velocity
         if (duration >= clickDuration && Input.GetMouseButtonDown(0))
         {
-            rb.velocity = new Vector2(0, jumpVelocity);
+            rb.linearVelocity = new Vector2(0, jumpVelocity);
             zRotation = maxTurnRotation;
             zRotationVel = 0f;
             duration = 0f;
@@ -50,6 +50,6 @@ public class Fly : MonoBehaviour
         transform.eulerAngles = new Vector3(0, 0, zRotation);
 
         // Clamp y velocity
-        rb.velocity = new Vector2(0, Mathf.Clamp(rb.velocity.y, -jumpVelocity, jumpVelocity));
+        rb.linearVelocity = new Vector2(0, Mathf.Clamp(rb.linearVelocity.y, -jumpVelocity, jumpVelocity));
     }
 }
