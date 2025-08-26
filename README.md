@@ -1,5 +1,5 @@
 # **Flappy Bird** 
-[<img src="https://www.svgrepo.com/download/449764/github.svg" alt="GitHub" width="30" height="30">](https://github.com/sunghogo/FlappyBird) [<img src="https://www.svgrepo.com/download/501816/play-game.svg" alt="Play Button" width="30" height="30">](https://sunghogo.github.io/FlappyBirdWebGL/) 
+[<img src="https://www.svgrepo.com/download/449764/github.svg" alt="GitHub" width="30" height="30">](https://github.com/sunghogo/FlappyBird) [<img src="https://www.svgrepo.com/download/501816/play-game.svg" alt="Play Button" width="30" height="30">](https://sunghogo.github.io/FlappyWebGL/) 
 | Key | Controls   |
 | --- | ---------- |
 | Left-Click | Fly |
